@@ -1,16 +1,25 @@
 ﻿
+using CryptoDCA.DataModel.Context;
+using CryptoDCA.DataModel.Integrations;
 using CryptoDCA.Integration.Coinmarketcap;
-using Microsoft.EntityFrameworkCore;
 
 namespace CryptoDCA.DataAccess.Crypto.Retriever;
 
 public sealed class CryptoRetrieverDao : ICryptoRetrieverDao
 {
     private readonly CoinMarketCapService _coinMarketCapService;
+    private readonly AppDbContext _dbContext;
 
-    public CryptoRetrieverDao(CoinMarketCapService coinMarketCapService)
+    public CryptoRetrieverDao(CoinMarketCapService coinMarketCapService, 
+                              AppDbContext dbContext)
     {
         _coinMarketCapService = coinMarketCapService;
+        _dbContext = dbContext;
+    }
+
+    public async Task<List<Currencies>> GetCryptoCurrencies()
+    {
+        return new List<Currencies>();
     }
 
     public async Task<decimal> GetCryptoPriceAtDateAsync(string crypto, DateTime date)
@@ -22,4 +31,5 @@ public sealed class CryptoRetrieverDao : ICryptoRetrieverDao
     {
         return await _coinMarketCapService.GetCurrentCryptoPrice(crypto);
     }
+
 }

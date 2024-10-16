@@ -1,5 +1,6 @@
 ﻿using CryptoDCA.DataModel.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace CryptoDCA.DataAccess
 {
@@ -7,9 +8,18 @@ namespace CryptoDCA.DataAccess
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+
         }
 
-        public DbSet<Investment> Investments { get; set; }
 
+        public DbSet<Investment> Investments { get; set; }
+        public DbSet<Currencies> Currencies { get; set; }
+
+
+
+        public async Task<List<Currencies>> GetCryptoCurrencies()
+        {
+            return await Currencies.FromSqlRaw("EXEC CryptoCurrency_GetAll").ToListAsync();
+        }
     }
 }

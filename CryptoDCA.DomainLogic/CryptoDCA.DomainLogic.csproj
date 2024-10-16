@@ -10,4 +10,8 @@
     <ProjectReference Include="..\CryptoDCA.DataAccess\CryptoDCA.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Investments\Retriever\" />
+  </ItemGroup>
+
 </Project>
