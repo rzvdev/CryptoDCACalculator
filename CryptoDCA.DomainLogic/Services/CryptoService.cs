@@ -24,9 +24,9 @@ namespace CryptoDCA.DomainLogic.Services
             // the logic for calculation DCA goes here
             DateTime currentDate = DateTime.Now;
 
-            for (var date = investmentData.StartDate; date <= currentDate; date = date.AddMonths(1))
+            for (var date = investmentData.StartDate; date <= currentDate; date = date.AddDays(investmentData.InvestmentPeriod.Days))
             {
-                decimal investedAmount = investmentData.MonthlyInvestment;
+                decimal investedAmount = investmentData.InvestmentValue;
 
                 // get the price of the selected crypto at the current date
                 decimal cryptoPrice = await _cryptoRetrieverDao.GetCryptoPriceAtDateAsync(investmentData.SelectedCrypto, date);

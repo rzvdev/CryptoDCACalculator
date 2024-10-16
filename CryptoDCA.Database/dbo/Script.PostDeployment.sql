@@ -12,4 +12,5 @@ Post-Deployment Script Template
 
 :r .\Data\CurrencyTypes.sql     
 :r .\Data\Currencies.sql
+:r .\Data\InvestPeriods.sql
 

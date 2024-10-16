@@ -3,10 +3,12 @@ using CryptoDCA.DataAccess.Crypto.Retriever;
 using CryptoDCA.DataAccess.Currency.Retriever;
 using CryptoDCA.DataAccess.Investments.Modifier;
 using CryptoDCA.DataAccess.Investments.Retriever;
+using CryptoDCA.DataAccess.Period.Retriever;
 using CryptoDCA.DataModel.Integrations;
 using CryptoDCA.DomainLogic.Currency.Retriever;
 using CryptoDCA.DomainLogic.Investments.Modifier;
 using CryptoDCA.DomainLogic.Investments.Retriever;
+using CryptoDCA.DomainLogic.Period.Retriever;
 using CryptoDCA.DomainLogic.Services;
 using CryptoDCA.Integration.Coinmarketcap;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +38,8 @@ namespace CryptoDCA.APP
             builder.Services.AddScoped<ICurrencyRetriever, CurrencyRetriever>();
             builder.Services.AddScoped<IInvestmentRetriever, InvestmentRetriever>();
             builder.Services.AddScoped<IInvestmentRetrieverDao, InvestmentRetrieverDao>();
+            builder.Services.AddScoped<IPeriodRetriever, PeriodRetriever>();
+            builder.Services.AddScoped<IPeriodRetrieverDao, PeriodRetrieverDao>();
 
             // Getting the database connection string from appsettings.json
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

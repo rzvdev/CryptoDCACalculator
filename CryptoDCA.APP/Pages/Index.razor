@@ -2,9 +2,11 @@
 @using CryptoDCA.DataModel.Context
 @using CryptoDCA.DataModel.DTOs
 @using CryptoDCA.DomainLogic.Currency.Retriever
+@using CryptoDCA.DomainLogic.Period.Retriever
 @using CryptoDCA.DomainLogic.Services
 @inject ICryptoService cryptoService
 @inject ICurrencyRetriever currencyRetriever 
+@inject IPeriodRetriever periodRetriever 
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -52,18 +54,18 @@
 
         <div class="form-group">
             <label for="monthlyInvestment">Mountly amount to invest (EUR):</label>
-            <InputNumber id="monthlyInvestment" class="form-control" @bind-Value="investmentData.MonthlyInvestment" />
+            <InputNumber id="monthlyInvestment" class="form-control" @bind-Value="investmentData.InvestmentValue" />
         </div>
 
         <div class="form-group">
             <label>Investment Period:</label>
-            <select class="form-control" @bind="investmentData.InvestmentPeriod">
+            <select class="form-control" @bind="investmentData.InvestmentPeriod.Days">
                   @if(investPeriods is null) {
                         <option>Loading...</option>
                 } else {
-                   @foreach (var period in investPeriods)
+                    @foreach (var period in investPeriods)
                     {
-                        <option value="@period.ProgId">@period.Name</option>
+                        <option value="@period.Days">@period.ProgId - @period.Description</option>
                     }
                 })
             </select>
@@ -104,9 +106,9 @@
 </div>
 
 @code {
-    private InvestmentData investmentData = new InvestmentData();
+    private InvestmentData investmentData = new InvestmentData(){InvestmentPeriod = new Periods()};
     private List<Currencies> currencies;
-    private List<InvestPeriod> investPeriods;
+    private List<Periods> investPeriods;
     private List<DCAResultDto> dcaResults;
 
 
@@ -118,6 +120,6 @@
     protected override async Task OnInitializedAsync()
     {
          currencies = await currencyRetriever.GetCryptoCurrencies();
-         investPeriods = await investments
+         investPeriods = await periodRetriever.GetPeriodsAsync();
     }
 }

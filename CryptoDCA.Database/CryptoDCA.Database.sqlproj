@@ -72,11 +72,13 @@
     <None Include="dbo\Data\CurrencyTypes.sql" />
     <Build Include="dbo\Views\View_Currency.sql" />
     <Build Include="dbo\Stored Procedures\Currency_GetAll.sql" />
+    <Build Include="dbo\Tables\GOT_INVEST_PERIOD.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Data\Currencies.sql" />
+    <None Include="dbo\Data\InvestPeriods.sql" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,7 @@
-﻿namespace CryptoDCA.DomainLogic.Periods.Retriever
+﻿using CryptoDCA.DataAccess.Period.Retriever;
+using CryptoDCA.DataModel.Context;
+
+namespace CryptoDCA.DomainLogic.Period.Retriever
 {
     public sealed class PeriodRetriever : IPeriodRetriever
     {
