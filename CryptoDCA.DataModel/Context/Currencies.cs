@@ -17,6 +17,10 @@ public sealed class Currencies
     [Required]
     public string Name { get; set; }
 
+    [Column("GOT_CURRENCY_PROGID")]
+    [Required]
+    public string ProgId { get; set; }
+
     [Column("GOT_CURRENCY_SYMBOL")]
     [Required]
     public string Symbol { get; set; }

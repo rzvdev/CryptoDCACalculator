@@ -1,0 +1,38 @@
+﻿IF NOT EXISTS (
+    SELECT 1
+    FROM  GOT_CURRENCY_TYPE
+    WHERE GOT_CURRENCY_TYPE_PROGID = 'CRYPTO'
+)
+BEGIN
+    INSERT INTO GOT_CURRENCY_TYPE (
+        GOT_CURRENCY_TYPE_NAME
+       ,GOT_CURRENCY_TYPE_PROGID
+       ,GOT_CURRENCY_TYPE_DESCRIPTION
+       ,GOT_CURRENCY_TYPE_ISACTIVE
+    )
+    SELECT 'CRYPTO'
+          ,'Crypto type'
+          ,'This will represent the crypto currency types'
+          ,1
+END
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM  GOT_CURRENCY_TYPE
+    WHERE GOT_CURRENCY_TYPE_PROGID = 'FIAT'
+)
+BEGIN
+    INSERT INTO GOT_CURRENCY_TYPE (
+        GOT_CURRENCY_TYPE_NAME
+       ,GOT_CURRENCY_TYPE_PROGID
+       ,GOT_CURRENCY_TYPE_DESCRIPTION
+       ,GOT_CURRENCY_TYPE_ISACTIVE
+    )
+    SELECT 'FIAT'
+          ,'Fiat type'
+          ,'This will represent the fiat currency types'
+          ,1
+END
+GO
+

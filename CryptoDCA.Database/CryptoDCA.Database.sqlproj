@@ -6,7 +6,7 @@
     <Name>CryptoDCA.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{d5d2e194-c2a7-40f2-a6ee-2c7ae8e177a8}</ProjectGuid>
+    <ProjectGuid>{d487cce9-70fc-4902-b766-76f13c53c2c7}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -60,9 +60,19 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
     <Build Include="dbo\Tables\BOT_INVESTMENT.sql" />
+    <Build Include="dbo\Tables\GOT_CURRENCY_TYPE.sql" />
+    <Build Include="dbo\Tables\GOT_CURRENCY.sql" />
+    <None Include="dbo\Data\CurrencyTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\Data\Currencies.sql" />
   </ItemGroup>
 </Project>
