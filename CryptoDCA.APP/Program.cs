@@ -1,7 +1,9 @@
 ﻿using CryptoDCA.DataAccess;
 using CryptoDCA.DataAccess.Crypto.Retriever;
+using CryptoDCA.DataAccess.Currency.Retriever;
 using CryptoDCA.DataAccess.Investments.Modifier;
 using CryptoDCA.DataModel.Integrations;
+using CryptoDCA.DomainLogic.Currency.Retriever;
 using CryptoDCA.DomainLogic.Investments.Modifier;
 using CryptoDCA.DomainLogic.Services;
 using CryptoDCA.Integration.Coinmarketcap;
@@ -27,6 +29,9 @@ namespace CryptoDCA.APP
             builder.Services.AddScoped<ICoinMarketCapService,CoinMarketCapService>();
             builder.Services.AddScoped<IInvestmentModifierDao, InvestmentModifierDao>();
             builder.Services.AddScoped<IInvestmentModifier, InvestmentModifier>();
+            builder.Services.AddScoped<IInvestmentModifierDao, InvestmentModifierDao>();
+            builder.Services.AddScoped<ICurrencyRetrieverDao, CurrencyRetrieverDao>();
+            builder.Services.AddScoped<ICurrencyRetriever, CurrencyRetriever>();
 
             // Getting the database connection string from appsettings.json
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

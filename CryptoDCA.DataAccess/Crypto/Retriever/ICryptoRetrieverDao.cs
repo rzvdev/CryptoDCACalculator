@@ -1,6 +1,5 @@
 ﻿
 using CryptoDCA.DataModel.Context;
-using CryptoDCA.DataModel.Integrations;
 
 namespace CryptoDCA.DataAccess.Crypto.Retriever;
 
@@ -16,8 +15,5 @@ public interface ICryptoRetrieverDao
     /// </summary>
     Task<decimal> GetCurrentCryptoPrice(string crypto);
 
-    /// <summary>
-    /// This method retrieves the crypto currencies
-    /// </summary>
-    Task<List<Currencies>> GetCryptoCurrencies();
+
 }

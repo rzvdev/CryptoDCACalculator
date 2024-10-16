@@ -1,8 +1,10 @@
 ﻿@page "/"
+@using CryptoDCA.DataModel.Context
 @using CryptoDCA.DataModel.DTOs
+@using CryptoDCA.DomainLogic.Currency.Retriever
 @using CryptoDCA.DomainLogic.Services
 @inject ICryptoService cryptoService
-    @* @inject IInvestmentRetriever investmentRetriever *@
+@inject ICurrencyRetriever currencyRetriever 
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -32,10 +34,14 @@
         <div class="form-group">
             <label for="cryptoSelect">Select crypto</label>
             <select id="cryptoSelect" class="form-control" @bind="investmentData.SelectedCrypto">
-                @foreach (var crypto in availableCryptos)
-                {
-                        <option value="@crypto">@crypto</option>
-                }
+                @if(currencies is null) {
+                        <option>Loading...</option>
+                } else {
+                   @foreach (var currency in currencies)
+                    {
+                        <option value="@currency.ProgId">@currency.Name - @currency.ProgId</option>
+                    }
+                })
             </select>
         </div>
 
@@ -85,7 +91,7 @@
 
 @code {
     private InvestmentData investmentData = new InvestmentData();
-    private List<string> availableCryptos = new List<string> { "BTC", "ETH", "SOL", "XRP" }; 
+    private List<Currencies> currencies;
     private List<DCAResultDto> dcaResults;
 
 
@@ -94,8 +100,8 @@
         dcaResults = await cryptoService.CalculateDCA(investmentData);
     }
 
-    private async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-         // availableCryptos = await investmentRetriever.GetAvailableCryptosAsync();
+         currencies = await currencyRetriever.GetCryptoCurrencies();
     }
 }

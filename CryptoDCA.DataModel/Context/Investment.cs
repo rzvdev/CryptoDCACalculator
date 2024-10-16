@@ -8,8 +8,8 @@ namespace CryptoDCA.DataModel.Context
     public sealed class Investment
     {
         [Column("BOT_INVESTMENT_ID")]
-        [Key] // This attribute specifies that this property is the primary key
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // This makes it auto-increment
+        [Key] 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int Id { get; set; }
 
         [Column("BOT_INVESTMENT_CRYPTOCURRENCY")]

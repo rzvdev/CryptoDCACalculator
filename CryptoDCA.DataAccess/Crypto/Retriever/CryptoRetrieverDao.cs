@@ -17,10 +17,6 @@ public sealed class CryptoRetrieverDao : ICryptoRetrieverDao
         _dbContext = dbContext;
     }
 
-    public async Task<List<Currencies>> GetCryptoCurrencies()
-    {
-        return new List<Currencies>();
-    }
 
     public async Task<decimal> GetCryptoPriceAtDateAsync(string crypto, DateTime date)
     {
