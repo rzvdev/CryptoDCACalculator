@@ -1,0 +1,96 @@
+﻿@page "/"
+@using CryptoDCA.DataModel.DTOs
+@using CryptoDCA.DomainLogic.Services
+@inject ICryptoService cryptoService
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    .purple-tinted-logo {
+        filter: invert(34%) sepia(95%) saturate(418%) hue-rotate(233deg) brightness(93%) contrast(95%);
+        width: 600px; 
+    }
+</style>
+
+<div class="container mt-5">
+
+    <div class="text-center mb-4">
+        <img src="https://cdn.tokero.com/content/4/images/tokero-logo-white-crypto-exchange-2x.png" alt="Tokero Logo" class="purple-tinted-logo" />
+    </div>
+
+    <br />
+    <br />
+
+    <h3 class="text-center">Crypto DCA Calculator</h3>
+    <h5 class="text-center text-muted">With pleasure for TOKKERO</h5>
+
+    <EditForm Model="investmentData" OnValidSubmit="CalculateDCA" class="mt-4">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="cryptoSelect">Selectați criptomoneda:</label>
+            <select id="cryptoSelect" class="form-control" @bind="investmentData.SelectedCrypto">
+                @foreach (var crypto in availableCryptos)
+                {
+                        <option value="@crypto">@crypto</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Data de început:</label>
+            <InputDate id="startDate" class="form-control" @bind-Value="investmentData.StartDate"  />
+        </div>
+
+        <div class="form-group">
+            <label for="monthlyInvestment">Sumă lunară de investiție (EUR):</label>
+            <InputNumber id="monthlyInvestment" class="form-control" @bind-Value="investmentData.MonthlyInvestment" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Calculează DCA</button>
+    </EditForm>
+
+    @if (dcaResults != null)
+    {
+            <h4 class="mt-4">Rezultatele DCA:</h4>
+            <table class="table table-striped mt-2">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Invested Amount</th>
+                        <th>Crypto Currency</th>
+                        <th>Crypto Amount</th>
+                        <th>Value Today</th>
+                        <th>ROI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var result in dcaResults)
+                {
+                            <tr>
+                                <td>@result.Date.ToShortDateString()</td>
+                                <td>@result.InvestedAmount.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</td>
+                                <td>@result.CryptoCurrency</tD>
+                                <td>@result.CryptoAmount.ToString("F4")</td>
+                                <td>@result.ValueToday.ToString("C", new System.Globalization.CultureInfo("en-US"))</td>
+                                <td>@result.ROI.ToString("P2")</td>
+                            </tr>
+                }
+                </tbody>
+            </table>
+    }
+</div>
+
+@code {
+    private InvestmentData investmentData = new InvestmentData();
+    private List<string> availableCryptos = new List<string> { "BTC", "ETH", "SOL", "XRP" }; // Exemplu de criptomonede disponibile
+    private List<DCAResultDto> dcaResults;
+
+
+    private async Task CalculateDCA()
+    {
+        // Aici vei apela serviciul CryptoService pentru a calcula DCA
+        dcaResults = await cryptoService.CalculateDCA(investmentData);
+    }
+}
