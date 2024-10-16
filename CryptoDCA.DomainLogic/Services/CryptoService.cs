@@ -26,7 +26,6 @@ namespace CryptoDCA.DomainLogic.Services
 
             for (var date = investmentData.StartDate; date <= currentDate; date = date.AddMonths(1))
             {
-                // simulating monthly investment
                 decimal investedAmount = investmentData.MonthlyInvestment;
 
                 // get the price of the selected crypto at the current date
@@ -44,7 +43,6 @@ namespace CryptoDCA.DomainLogic.Services
 
             // save the investment data
             await _investmentModifier.AddInvestmentsAsync(results);
-
 
             return results;
         }

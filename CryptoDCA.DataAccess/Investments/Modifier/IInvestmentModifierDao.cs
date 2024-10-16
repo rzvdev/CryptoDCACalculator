@@ -1,9 +1,11 @@
 ﻿using CryptoDCA.DataModel.Context;
-using CryptoDCA.DataModel.DTOs;
 
 namespace CryptoDCA.DataAccess.Investments.Modifier;
 
 public interface IInvestmentModifierDao
-{  
-   Task<InvestmentSaveResultDto> SaveInvestmentsAsync(List<Investment> investment);
+{
+    /// <summary>
+    /// Save investments to the database
+    /// </summary>
+    Task SaveInvestmentsAsync(List<Investment> investment);
 }

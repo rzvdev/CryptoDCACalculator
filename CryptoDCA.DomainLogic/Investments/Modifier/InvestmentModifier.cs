@@ -1,7 +1,6 @@
 ﻿using CryptoDCA.DataAccess.Investments.Modifier;
 using CryptoDCA.DataModel.Context;
 using CryptoDCA.DataModel.DTOs;
-using System.Linq;
 
 namespace CryptoDCA.DomainLogic.Investments.Modifier;
 
@@ -14,7 +13,7 @@ public sealed class InvestmentModifier : IInvestmentModifier
         _investmentModifierDao = investmentModifierDao;
     }
 
-    public async Task<InvestmentSaveResultDto> AddInvestmentsAsync(List<DCAResultDto> investmentDataDto)
+    public async Task AddInvestmentsAsync(List<DCAResultDto> investmentDataDto)
     {
         var investments = investmentDataDto.Select(x => new Investment()
                                                     {
@@ -28,7 +27,5 @@ public sealed class InvestmentModifier : IInvestmentModifier
                                             .ToList();
 
         await _investmentModifierDao.SaveInvestmentsAsync(investments);
-
-        return new InvestmentSaveResultDto(); 
     }
 }

@@ -4,5 +4,8 @@ namespace CryptoDCA.DomainLogic.Investments.Modifier;
 
 public interface IInvestmentModifier
 {
-    Task<InvestmentSaveResultDto> AddInvestmentsAsync(List<DCAResultDto> investmentDataDto);
+    /// <summary>
+    /// Add investments to the database
+    /// </summary>
+    Task AddInvestmentsAsync(List<DCAResultDto> investmentDataDto);
 }
