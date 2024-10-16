@@ -1,6 +1,5 @@
 ﻿using CryptoDCA.DataModel.DTOs;
 using CryptoDCA.DataAccess.Crypto.Retriever;
-using CryptoDCA.DataAccess.Investments.Modifier;
 using CryptoDCA.DomainLogic.Investments.Modifier;
 
 namespace CryptoDCA.DomainLogic.Services
@@ -15,6 +14,7 @@ namespace CryptoDCA.DomainLogic.Services
                              IInvestmentModifier investmentModifier)
         {
             _cryptoRetrieverDao = cryptoRetrieverDao;
+            _investmentModifier = investmentModifier;
         }
 
         public async Task<List<DCAResultDto>> CalculateDCA(InvestmentData investmentData)
@@ -41,8 +41,14 @@ namespace CryptoDCA.DomainLogic.Services
             }
 
 
-            // save the investment data
-            await _investmentModifier.AddInvestmentsAsync(results);
+            try
+            {
+                // save the investment data
+                await _investmentModifier.AddInvestmentsAsync(results);
+            } catch(Exception e)
+            {
+                Console.WriteLine("Cannot save these investments to database");
+            }
 
             return results;
         }

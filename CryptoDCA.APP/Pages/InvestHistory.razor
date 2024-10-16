@@ -1,0 +1,62 @@
+﻿@page "/invest-history"
+@inject IInvestmentRetriever investmentRetrieve
+
+@using CryptoDCA.DataModel.Context
+@using CryptoDCA.DomainLogic.Investments.Retriever
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Investment History</h3>
+
+    @if (investments == null)
+    {
+        <div class="alert alert-info" role="alert">
+            Loading...
+        </div>
+    }
+    else if (investments.Count == 0)
+    {
+        <div class="alert alert-warning" role="alert">
+            No investments found.
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Your Investments</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Investment Date</th>
+                            <th>Amount</th>
+                            <th>TO</th>
+                            <th>At price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var investment in investments)
+                        {
+                            <tr>
+                                <td>@investment.InvestmentDate.ToShortDateString()</td>
+                                <td>@investment.InvestedAmount.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</td>
+                                <td>@investment.Cryptocurrency</td>
+                                <td>@investment.CryptoValue.ToString("F3")</td> 
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Investment> investments; 
+
+    protected override async Task OnInitializedAsync()
+    {
+        investments = await investmentRetrieve.GetInvestmentsAsync();
+    }
+}

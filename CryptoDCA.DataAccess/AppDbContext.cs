@@ -1,7 +1,6 @@
 ﻿using CryptoDCA.DataModel.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace CryptoDCA.DataAccess
 {
@@ -15,6 +14,7 @@ namespace CryptoDCA.DataAccess
 
         public DbSet<Investment> Investments { get; set; }
         public DbSet<Currencies> Currencies { get; set; }
+        public DbSet<Periods> Periods { get; set; }
 
 
 

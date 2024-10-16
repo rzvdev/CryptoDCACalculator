@@ -10,7 +10,7 @@
 
 <style>
     .purple-tinted-logo {
-        filter: invert(34%) sepia(95%) saturate(418%) hue-rotate(233deg) brightness(93%) contrast(95%);
+        filter: invert(34%) sepia(20%) saturate(500%) hue-rotate(240deg) brightness(100%) contrast(100%);
         width: 600px; 
     }
 </style>
@@ -25,7 +25,7 @@
     <br />
 
     <h3 class="text-center">Crypto DCA Calculator</h3>
-    <h5 class="text-center text-muted">With pleasure for TOKKERO</h5>
+    <h5 class="text-center text-muted">With pleasure for TOKERO</h5>
 
     <EditForm Model="investmentData" OnValidSubmit="CalculateDCA" class="mt-4">
         <DataAnnotationsValidator />
@@ -53,6 +53,20 @@
         <div class="form-group">
             <label for="monthlyInvestment">Mountly amount to invest (EUR):</label>
             <InputNumber id="monthlyInvestment" class="form-control" @bind-Value="investmentData.MonthlyInvestment" />
+        </div>
+
+        <div class="form-group">
+            <label>Investment Period:</label>
+            <select class="form-control" @bind="investmentData.InvestmentPeriod">
+                  @if(investPeriods is null) {
+                        <option>Loading...</option>
+                } else {
+                   @foreach (var period in investPeriods)
+                    {
+                        <option value="@period.ProgId">@period.Name</option>
+                    }
+                })
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary btn-block">Calculate DCA</button>
@@ -92,6 +106,7 @@
 @code {
     private InvestmentData investmentData = new InvestmentData();
     private List<Currencies> currencies;
+    private List<InvestPeriod> investPeriods;
     private List<DCAResultDto> dcaResults;
 
 
@@ -103,5 +118,6 @@
     protected override async Task OnInitializedAsync()
     {
          currencies = await currencyRetriever.GetCryptoCurrencies();
+         investPeriods = await investments
     }
 }
