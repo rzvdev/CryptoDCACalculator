@@ -27,11 +27,11 @@ namespace CryptoDCA.APP
                 builder.Services.AddRazorPages();
                 builder.Services.AddServerSideBlazor();
 
-            builder.Services.AddBlazorBootstrap();
+                builder.Services.AddBlazorBootstrap();
 
 
-            // Register the services
-            builder.Services.AddScoped<ICryptoService, CryptoService>();
+                // Register the services
+                builder.Services.AddScoped<ICryptoService, CryptoService>();
                 builder.Services.AddScoped<ICryptoRetrieverDao, CryptoRetrieverDao>();
                 builder.Services.AddScoped<ICoinMarketCapService, CoinMarketCapService>();
                 builder.Services.AddScoped<IInvestmentModifierDao, InvestmentModifierDao>();

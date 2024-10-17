@@ -6,8 +6,19 @@
 @inject IInvestmentRetriever investmentRetrieve
 @inject ICurrencyRetriever currencyRetriever
 
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Total Investments by Cryptocurrency</h3>
+    <p class="text-center mb-4">
+        This chart represents the total investment amounts for each cryptocurrency you have invested in.
+    </p>
 
-<BarChart @ref="barChart" Width="500" Height="300" />
+    <br>
+    <br>
+
+    <div class="chart-container d-flex justify-content-center" style="position: relative; height: 400px; width: 100%;">
+        <BarChart @ref="barChart" Width="500" Height="300" />
+    </div>
+</div>
 
 @code {
     private BarChart barChart = default!;
@@ -28,10 +39,11 @@
 
     // Group investments by ProgId
     var investmentGroups = investments.GroupBy(i => i.Cryptocurrency);
-
+    
     // Create datasets for each currency based on grouped investments
     foreach (var currency in currencies)
     {
+        var i = 0;
         var dataset = new BarChartDataset()
         {
             Data = new List<double?>
@@ -40,41 +52,18 @@
                     .Where(g => g.Key == currency.ProgId) // Ensure to match by ProgId
                     .Sum(g => g.Sum(i => (double?)i.InvestedAmount)) // Sum all InvestedAmounts
             },
+
             // Ensure to use the correct index for colors
-            BorderColor = new List<string> { "RED"},
-            BackgroundColor = new List<string> {"green"},
+            BorderColor = new List<string> { ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToString()} ,
+            BackgroundColor = new List<string> { ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToString()},
+            Label = currency.Symbol,
             BorderWidth = new List<double> { 0 },
         };
 
-
         datasets.Add(dataset);
+        i++;
     }
 
-    barChartOptions = new BarChartOptions
-{
-    Responsive = true,
-    Interaction = new Interaction { Mode = InteractionMode.Y },
-    IndexAxis = "y",
-    Scales = new Dictionary<string, ChartAxis>
-    {
-        {
-            "x", new ChartAxis
-            {
-                Title = new ChartAxesTitle { Text = "Visitors", Display = true }
-            }
-        },
-        {
-            "y", new ChartAxis
-            {
-                Title = new ChartAxesTitle { Text = "Currency", Display = true }
-            }
-        }
-    },
-    Plugins = new ChartPlugins
-    {
-        Legend = new Legend { Display = false } // Disable the legend
-    }
-};
 
     // Create chart data
     var chartData = new ChartData
