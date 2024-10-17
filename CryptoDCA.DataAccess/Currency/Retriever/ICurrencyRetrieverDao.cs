@@ -1,4 +1,5 @@
 ﻿using CryptoDCA.DataModel.Context;
+using CryptoDCA.DataModel.DTOs.Currency;
 
 namespace CryptoDCA.DataAccess.Currency.Retriever;
 
@@ -8,5 +9,5 @@ public interface ICurrencyRetrieverDao
     /// This method retrieves all currencies
     /// </summary>
     /// <returns></returns>
-    Task<List<Currencies>> GetCurrencies(bool onlyCrypto = false);
+    Task<List<Currencies>> GetCurrencies(GetCurrenciesFilterDto dto);
 }

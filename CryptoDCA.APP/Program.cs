@@ -27,8 +27,11 @@ namespace CryptoDCA.APP
                 builder.Services.AddRazorPages();
                 builder.Services.AddServerSideBlazor();
 
-                // Register the services
-                builder.Services.AddScoped<ICryptoService, CryptoService>();
+            builder.Services.AddBlazorBootstrap();
+
+
+            // Register the services
+            builder.Services.AddScoped<ICryptoService, CryptoService>();
                 builder.Services.AddScoped<ICryptoRetrieverDao, CryptoRetrieverDao>();
                 builder.Services.AddScoped<ICoinMarketCapService, CoinMarketCapService>();
                 builder.Services.AddScoped<IInvestmentModifierDao, InvestmentModifierDao>();
@@ -61,9 +64,12 @@ namespace CryptoDCA.APP
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1) // total lifetime of the cache
                 });
 
-         
-                // Getting the database connection string from appsettings.json
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+               
+
+
+
+            // Getting the database connection string from appsettings.json
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
                 // Make connection between API and database
                 builder.Services.AddDbContext<AppDbContext>(options =>

@@ -26,6 +26,7 @@ public sealed class InvestmentModifier : IInvestmentModifier
                                                     })
                                             .ToList();
 
+
         await _investmentModifierDao.SaveInvestmentsAsync(investments);
     }
 }

@@ -24,7 +24,7 @@ public class CurrencyRetriever : ICurrencyRetriever
         if (!_cache.TryGetValue(nameof(List<Currencies>), out List<Currencies> currencies))
         {
             // Data is not in the cache, so retrieve it
-            currencies = await _currencyRetrieverDao.GetCurrencies(onlyCrypto: true);
+            currencies = await _currencyRetrieverDao.GetCurrencies(new(OnlyCrypto: true));
 
             // Save data in cache
             _cache.Set(nameof(List<Currencies>), currencies);
@@ -36,6 +36,6 @@ public class CurrencyRetriever : ICurrencyRetriever
 
     public async Task<List<Currencies>> GetCurrencies()
     {
-        return await _currencyRetrieverDao.GetCurrencies();
+        return await _currencyRetrieverDao.GetCurrencies(new(OnlyCrypto: false));
     }
 }

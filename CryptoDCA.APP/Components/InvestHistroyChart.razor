@@ -1,0 +1,98 @@
+﻿@page "/visualisation"
+
+@using CryptoDCA.DomainLogic.Investments.Retriever
+@using CryptoDCA.DomainLogic.Currency.Retriever;
+@using System.Linq
+@inject IInvestmentRetriever investmentRetrieve
+@inject ICurrencyRetriever currencyRetriever
+
+
+<BarChart @ref="barChart" Width="500" Height="300" />
+
+@code {
+    private BarChart barChart = default!;
+    private BarChartOptions barChartOptions = default!;
+    private ChartData chartData = default!;
+
+   protected override async Task OnInitializedAsync()
+{
+    var currencies = await currencyRetriever.GetCryptoCurrencies();
+    var investments = await investmentRetrieve.GetInvestmentsAsync();
+
+    // Prepare labels and datasets for the chart
+    var labels = currencies.Select(i => i.Symbol)
+                           .Distinct()
+                           .ToList();
+
+    var datasets = new List<IChartDataset>();
+
+    // Group investments by ProgId
+    var investmentGroups = investments.GroupBy(i => i.Cryptocurrency);
+
+    // Create datasets for each currency based on grouped investments
+    foreach (var currency in currencies)
+    {
+        var dataset = new BarChartDataset()
+        {
+            Data = new List<double?>
+            {
+                investmentGroups
+                    .Where(g => g.Key == currency.ProgId) // Ensure to match by ProgId
+                    .Sum(g => g.Sum(i => (double?)i.InvestedAmount)) // Sum all InvestedAmounts
+            },
+            // Ensure to use the correct index for colors
+            BorderColor = new List<string> { "RED"},
+            BackgroundColor = new List<string> {"green"},
+            BorderWidth = new List<double> { 0 },
+        };
+
+
+        datasets.Add(dataset);
+    }
+
+    barChartOptions = new BarChartOptions
+{
+    Responsive = true,
+    Interaction = new Interaction { Mode = InteractionMode.Y },
+    IndexAxis = "y",
+    Scales = new Dictionary<string, ChartAxis>
+    {
+        {
+            "x", new ChartAxis
+            {
+                Title = new ChartAxesTitle { Text = "Visitors", Display = true }
+            }
+        },
+        {
+            "y", new ChartAxis
+            {
+                Title = new ChartAxesTitle { Text = "Currency", Display = true }
+            }
+        }
+    },
+    Plugins = new ChartPlugins
+    {
+        Legend = new Legend { Display = false } // Disable the legend
+    }
+};
+
+    // Create chart data
+    var chartData = new ChartData
+    {
+        Labels = labels,
+        Datasets = datasets
+    };
+
+    // Initialize the chart
+    await barChart.InitializeAsync(chartData, barChartOptions);
+}
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await barChart.InitializeAsync(chartData, barChartOptions);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

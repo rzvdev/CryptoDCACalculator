@@ -1,4 +1,5 @@
 ﻿using CryptoDCA.DataModel.Context;
+using CryptoDCA.DataModel.DTOs.Currency;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,10 +19,10 @@ namespace CryptoDCA.DataAccess
 
 
 
-        public async Task<List<Currencies>> GetCurrencies(bool onlyCrypto = false)
+        public async Task<List<Currencies>> GetCurrencies(GetCurrenciesFilterDto dto)
         {
             // Create SQL parameters
-            var onlyCryptoParam = new SqlParameter("@onlyCrypto", onlyCrypto);
+            var onlyCryptoParam = new SqlParameter("@onlyCrypto", dto.OnlyCrypto);
 
             var result = await Currencies.FromSqlRaw("EXEC Currency_GetAll @onlyCrypto", onlyCryptoParam).ToListAsync();
             return result;                                                                                                  
