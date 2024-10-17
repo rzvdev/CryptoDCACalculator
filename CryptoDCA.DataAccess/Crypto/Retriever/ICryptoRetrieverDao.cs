@@ -1,7 +1,4 @@
-﻿
-using CryptoDCA.DataModel.Context;
-
-namespace CryptoDCA.DataAccess.Crypto.Retriever;
+﻿namespace CryptoDCA.DataAccess.Crypto.Retriever;
 
 public interface ICryptoRetrieverDao
 {

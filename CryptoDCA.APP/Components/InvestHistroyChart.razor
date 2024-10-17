@@ -37,7 +37,7 @@
 
     var datasets = new List<IChartDataset>();
 
-    // Group investments by ProgId
+    // Group investments by currency
     var investmentGroups = investments.GroupBy(i => i.Cryptocurrency);
     
     // Create datasets for each currency based on grouped investments
@@ -52,8 +52,6 @@
                     .Where(g => g.Key == currency.ProgId) // Ensure to match by ProgId
                     .Sum(g => g.Sum(i => (double?)i.InvestedAmount)) // Sum all InvestedAmounts
             },
-
-            // Ensure to use the correct index for colors
             BorderColor = new List<string> { ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToString()} ,
             BackgroundColor = new List<string> { ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToString()},
             Label = currency.Symbol,

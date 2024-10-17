@@ -47,7 +47,7 @@ namespace CryptoDCA.DomainLogic.Services
                 await _investmentModifier.AddInvestmentsAsync(results);
             } catch(Exception e)
             {
-                Console.WriteLine("Cannot save these investments to database");
+                Console.WriteLine("Cannot save these investments to database", e);
             }
 
             return results;

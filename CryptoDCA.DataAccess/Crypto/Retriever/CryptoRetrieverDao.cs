@@ -1,7 +1,4 @@
-﻿
-using CryptoDCA.DataModel.Context;
-using CryptoDCA.DataModel.Integrations;
-using CryptoDCA.Integration.Coinmarketcap;
+﻿using CryptoDCA.Integration.Coinmarketcap;
 
 namespace CryptoDCA.DataAccess.Crypto.Retriever;
 
@@ -10,7 +7,7 @@ public sealed class CryptoRetrieverDao : ICryptoRetrieverDao
     private readonly CoinMarketCapService _coinMarketCapService;
     private readonly AppDbContext _dbContext;
 
-    public CryptoRetrieverDao(CoinMarketCapService coinMarketCapService, 
+    public CryptoRetrieverDao(CoinMarketCapService coinMarketCapService,
                               AppDbContext dbContext)
     {
         _coinMarketCapService = coinMarketCapService;

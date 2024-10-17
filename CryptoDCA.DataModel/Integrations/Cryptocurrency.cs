@@ -1,5 +1,4 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace CryptoDCA.DataModel.Integrations;
 
@@ -9,9 +8,9 @@ public class Cryptocurrency
     public string Name { get; set; }
     public string Symbol { get; set; }
     public bool IsActive { get; set; }
-    public List<Quote> Quotes { get; set; } // Pentru primul răspuns
-    public decimal CirculatingSupply { get; set; } // Pentru al doilea răspuns
-    public decimal TotalSupply { get; set; } // Pentru al doilea răspuns
+    public List<Quote> Quotes { get; set; } 
+    public decimal CirculatingSupply { get; set; } 
+    public decimal TotalSupply { get; set; }
 
     [JsonProperty("quote")]
     public QuoteData Qoute { get; set; } 

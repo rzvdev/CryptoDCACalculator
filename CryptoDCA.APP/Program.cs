@@ -64,12 +64,8 @@ namespace CryptoDCA.APP
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1) // total lifetime of the cache
                 });
 
-               
-
-
-
-            // Getting the database connection string from appsettings.json
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                // Getting the database connection string from appsettings.json
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
                 // Make connection between API and database
                 builder.Services.AddDbContext<AppDbContext>(options =>
