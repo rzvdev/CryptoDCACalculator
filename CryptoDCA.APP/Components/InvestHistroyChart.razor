@@ -25,50 +25,46 @@
     private BarChartOptions barChartOptions = default!;
     private ChartData chartData = default!;
 
-   protected override async Task OnInitializedAsync()
-{
-    var currencies = await currencyRetriever.GetCryptoCurrencies();
-    var investments = await investmentRetrieve.GetInvestmentsAsync();
-
-    // Prepare labels and datasets for the chart
-    var labels = currencies.Select(i => i.Symbol)
-                           .Distinct()
-                           .ToList();
-
-    var datasets = new List<IChartDataset>();
-
-    // Group investments by currency
-    var investmentGroups = investments.GroupBy(i => i.Cryptocurrency);
-    
-    // Create datasets for each currency based on grouped investments
-    foreach (var currency in currencies)
+    protected override async Task OnInitializedAsync()
     {
-        var i = 0;
-        var dataset = new BarChartDataset()
-        {
-            Data = new List<double?>
-            {
-                investmentGroups
-                    .Where(g => g.Key == currency.ProgId) // Ensure to match by ProgId
-                    .Sum(g => g.Sum(i => (double?)i.InvestedAmount)) // Sum all InvestedAmounts
-            },
-            BorderColor = new List<string> { ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToString()} ,
-            BackgroundColor = new List<string> { ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToString()},
-            Label = currency.Symbol,
-            BorderWidth = new List<double> { 0 },
-        };
-
-        datasets.Add(dataset);
-        i++;
-    }
+        var currencies = await currencyRetriever.GetCryptoCurrencies();
+        var investments = await investmentRetrieve.GetInvestmentsAsync();
+        var labels = currencies.Select(i => i.Symbol)
+                               .Distinct()
+                               .ToList();
+        var datasets = new List<IChartDataset>();
+        Random random = new();
 
 
-    // Create chart data
-    var chartData = new ChartData
+        var dataset1 = new BarChartDataset()
     {
-        Labels = labels,
-        Datasets = datasets
+               Data = labels.Select(label =>
+           {
+               // Find all investments where the cryptocurrency matches the label
+               var investmentSum = investments
+                   .Where(investment => investment.Cryptocurrency == label)
+                   .Sum(investment => investment.InvestedAmount);
+
+               return (double?)investmentSum;
+           }).ToList(),
+        BackgroundColor = new List<string> { ColorUtility.CategoricalTwelveColors[random.Next(0,12) % ColorUtility.CategoricalTwelveColors.Length].ToString() },
+        BorderColor = new List<string> { ColorUtility.CategoricalTwelveColors[random.Next(0, 12) % ColorUtility.CategoricalTwelveColors.Length].ToString() },
+        BorderWidth = new List<double> { 0 },
     };
+
+    datasets.Add(dataset1);
+
+    chartData = new ChartData { Labels = labels, Datasets = datasets };
+
+    barChartOptions = new BarChartOptions();
+    barChartOptions.Responsive = true;
+    barChartOptions.Interaction = new Interaction { Mode = InteractionMode.Y };
+    barChartOptions.IndexAxis = "y";
+
+    barChartOptions.Scales.X!.Title = new ChartAxesTitle { Text = "Amount", Display = true };
+    barChartOptions.Scales.Y!.Title = new ChartAxesTitle { Text = "Currency", Display = true };
+
+    barChartOptions.Plugins.Legend.Display = false;
 
     // Initialize the chart
     await barChart.InitializeAsync(chartData, barChartOptions);
